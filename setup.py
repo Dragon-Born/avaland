@@ -12,9 +12,9 @@ setup(name='Avaland Music Downloader',
       author_email='me@arian.lol',
       packages=find_packages(),
       install_requires=["requests"],
-      # entry_points={'console_scripts': [
-      #       'warpy = warpy.__main__',
-      #   ]},
+      entry_points={'console_scripts': [
+            'avaland = avaland.__main__',
+        ]},
       classifiers=[
           'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
           'Intended Audience :: Developers',      # Define that your audience are developers
