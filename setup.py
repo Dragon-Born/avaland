@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='Avaland Music Downloader',
       version='0.0.1',
@@ -10,7 +10,7 @@ setup(name='Avaland Music Downloader',
       license='mit',
       author='Arian Amiramjadi',
       author_email='me@arian.lol',
-      packages=['avaland'],
+      packages=find_packages(),
       install_requires=["requests"],
       # entry_points={'console_scripts': [
       #       'warpy = warpy.__main__',

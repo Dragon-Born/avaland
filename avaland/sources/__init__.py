@@ -4,12 +4,3 @@ from .nex1music import Nex1
 from .radiojavan import RadioJavan
 from .rapfarsi import RapFarsi
 from .wikiseda import WikiSeda
-
-__all__ = (
-    "Bia2",
-    "Navahang",
-    "Nex1",
-    "RadioJavan",
-    "RapFarsi",
-    "WikiSeda"
-)
