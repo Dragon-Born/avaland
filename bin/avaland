@@ -41,7 +41,7 @@ if __name__ == '__main__':
     search = manager.search(args.query)
     for source in search.keys():
         counter = print_result(source, search[source], counter)
-    _input = input("select item to download (q for exit): ")
+    _input = input("Select an item to download (q for exit): ")
     if _input == "q":
         exit()
     print(items[int(_input) - 1])
