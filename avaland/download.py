@@ -13,7 +13,7 @@ from avaland.exceptions import SourceNetworkError
 def convert_size(size_bytes):
     if size_bytes == 0:
         return "0B"
-    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    size_name = ("B", "KB", "MB", "GB")
     i = int(math.floor(math.log(size_bytes, 1024)))
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
@@ -50,7 +50,7 @@ class Download:
                     f.write(data)
                     done = int(100 * dl / total_length)
                     percent = " " + str(done) if done < 10 else done
-                    sys.stdout.write("\r%s%%|%s%s| (%s / %s) %s/s      " % (
+                    sys.stdout.write("\r%s%%|%s%s| (%s / %s) %s/s" % (
                         percent, "█" * int(done // 2), " " * (int((50 - done // 2))), convert_size(dl),
                         convert_size(total_length), convert_size(int(dl // (time.time() - start))).replace(" ", "")))
                     sys.stdout.flush()

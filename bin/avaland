@@ -24,13 +24,13 @@ def print_result(source, data, counter):
             if len(data.to_dict()[i]) - 1 < j:
                 break
             if i == 'musics':
-                print("\t", "%s- (%s)" % (counter, i), " -> ", data.musics[j].full_title)
+                print("\t", "%s- [%s]" % (counter, i), " -> ", data.musics[j].full_title)
                 items.append(data.musics[j])
             elif i == 'albums':
-                print("\t", "%s- (%s)" % (counter, i), " -> ", data.albums[j].full_title)
+                print("\t", "%s- [%s]" % (counter, i), " -> ", data.albums[j].full_title)
                 items.append(data.albums[j])
             elif i == 'artists':
-                print("\t", "%s- (%s)" % (counter, i), " -> ", data.artists[j].full_name)
+                print("\t", "%s- [%s]" % (counter, i), " -> ", data.artists[j].full_name)
                 items.append(data.artists[j])
             counter += 1
             print()
