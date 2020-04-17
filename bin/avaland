@@ -6,8 +6,9 @@ from avaland.manager import SourceManager
 from avaland.sources import *
 
 parser = argparse.ArgumentParser(description='Avaland Music Downloader')
-parser.add_argument("query", type=str,
-                    help='an integer for the accumulator')
+parser.add_argument("query", type=str, help='search query')
+parser.add_argument("--path", type=str, help='path to download')
+parser.add_argument("--sources", type=str, help='list of sources (default: --sources bia2,next1,rapfarsi)')
 
 args = parser.parse_args()
 
@@ -58,4 +59,4 @@ if __name__ == '__main__':
         print("Planned for future...")
         exit()
 
-    items[int(_input) - 1].download()
+    items[int(_input) - 1].download(args.path)
