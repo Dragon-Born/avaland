@@ -1,12 +1,14 @@
-import requests
 from xml.etree import ElementTree
+
+import requests
+from requests.exceptions import ConnectionError, HTTPError
+
 from avaland.config import MAX_TIME_OUT
 from avaland.data_types import Music, Artist, Album
 from avaland.download import Download
+from avaland.exceptions import SourceNetworkError
 from avaland.music_base import MusicBase
 from avaland.search import SearchResult
-from requests.exceptions import ConnectionError, HTTPError
-from avaland.exceptions import SourceNetworkError
 
 
 class Bia2(MusicBase):

@@ -1,4 +1,4 @@
-from typing import Set, Tuple
+from typing import Tuple
 
 
 class Music:

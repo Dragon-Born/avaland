@@ -1,11 +1,10 @@
-import pathlib
+import math
 import os
+import pathlib
+import sys
 import time
 
 import requests
-import sys
-import math
-
 from requests import HTTPError
 
 from avaland.exceptions import SourceNetworkError
@@ -52,8 +51,8 @@ class Download:
                     done = int(100 * dl / total_length)
                     percent = " " + str(done) if done < 10 else done
                     sys.stdout.write("\r%s%%[%s%s] (%s / %s) %s/s" % (
-                        percent, "=" * int(done//2) + ">", " " * (int((50 - done//2))), convert_size(dl),
-                        convert_size(total_length), convert_size(int(dl//(time.time() - start))).replace(" ", "")))
+                        percent, "=" * int(done // 2) + ">", " " * (int((50 - done // 2))), convert_size(dl),
+                        convert_size(total_length), convert_size(int(dl // (time.time() - start))).replace(" ", "")))
                     sys.stdout.flush()
         print()
         self.path = os.path.join(self.path, self.file_name)

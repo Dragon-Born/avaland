@@ -1,4 +1,7 @@
+from urllib.parse import quote
+
 import requests
+import urllib3
 from requests import HTTPError
 
 from avaland.config import MAX_TIME_OUT
@@ -7,8 +10,6 @@ from avaland.download import Download
 from avaland.exceptions import SourceNetworkError
 from avaland.music_base import MusicBase
 from avaland.search import SearchResult
-from urllib.parse import quote
-import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 

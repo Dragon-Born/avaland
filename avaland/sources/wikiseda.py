@@ -1,7 +1,6 @@
 from urllib.parse import quote
 
 import requests
-
 from requests import HTTPError
 
 from avaland.config import MAX_TIME_OUT

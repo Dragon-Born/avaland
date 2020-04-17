@@ -1,6 +1,6 @@
 from avaland.data_types import Music
-from avaland.search import SearchResult
 from avaland.download import Download
+from avaland.search import SearchResult
 
 
 class MusicBase:
