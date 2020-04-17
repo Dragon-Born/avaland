@@ -14,7 +14,7 @@ args = parser.parse_args()
 def print_result(source, data, counter):
     print(source.title(), "results: ")
     if data.record_count == 0:
-        print("\t", "Nothing!")
+        print("\t", "Nothing!\n")
         return counter
     for i in data.to_dict().keys():
         for j in range(3):
