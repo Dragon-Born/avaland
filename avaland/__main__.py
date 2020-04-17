@@ -29,11 +29,15 @@ def print_result(source, data, counter):
 if __name__ == '__main__':
     items = []
     counter = 1
+    print("LOL")
     manager = SourceManager()
+    print("lol2")
     manager.register(Bia2)
     manager.register(Nex1)
     manager.register(RapFarsi)
+    print('lol3')
     search = manager.search(args.query)
+    print("lol4")
     for source in search.keys():
         counter = print_result(source, search[source], counter)
     _input = input("select item to download (q for exit): ")
