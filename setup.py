@@ -13,7 +13,7 @@ setup(name='Avaland Music Downloader',
       packages=find_packages(),
       install_requires=["requests"],
       entry_points={'console_scripts': [
-            'avaland-cli = avaland.__main__',
+            'avaland = avaland:main',
         ]},
       classifiers=[
           'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
