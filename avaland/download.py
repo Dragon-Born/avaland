@@ -50,6 +50,7 @@ class Download:
             else:
                 dl = 0
                 total_length = int(total_length)
+                print("Downloading: %s" % self.file_name.split(".")[0])
                 for data in req.iter_content(chunk_size=4096):
                     dl += len(data)
                     f.write(data)
