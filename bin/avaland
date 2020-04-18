@@ -1,41 +1,37 @@
 #!/usr/bin/env python
 
 import argparse
+from typing import List
 
+from avaland import Music, Artist, Album
 from avaland.manager import SourceManager
 from avaland.sources import *
 
 parser = argparse.ArgumentParser(description='Avaland Music Downloader')
 parser.add_argument("query", type=str, help='search query')
 parser.add_argument("--path", type=str, help='path to download')
-parser.add_argument("--sources", type=str, help='list of sources (default: --sources bia2,next1,rapfarsi)')
+parser.add_argument("--sources", type=str, help='list of sources (default: --sources all)\n'
+                                                'available sources: bia2, next1, navahang, radiojavan, rapfarsi,'
+                                                'wikiseda')
 
 args = parser.parse_args()
 
 
-def print_result(source, data, counter):
-    print(source.title(), "results: ")
-    if data.record_count == 0:
-        print("\t", "Nothing!\n")
-        return counter
-
-    for i in data.to_dict().keys():
-        for j in range(3):
-            if len(data.to_dict()[i]) - 1 < j:
-                break
-            if i == 'musics':
-                print("\t", "%s- [%s]" % (counter, i), " -> ", data.musics[j].full_title)
-                items.append(data.musics[j])
-            elif i == 'albums':
-                print("\t", "%s- [%s]" % (counter, i), " -> ", data.albums[j].full_title)
-                items.append(data.albums[j])
-            elif i == 'artists':
-                print("\t", "%s- [%s]" % (counter, i), " -> ", data.artists[j].full_name)
-                items.append(data.artists[j])
-            counter += 1
-            print()
-
-    return counter
+def print_result(search_data):
+    musics: List[Music] = []
+    albums: List[Album] = []
+    artists: List[Artist] = []
+    counter = 1
+    for source in search_data:
+        musics.extend(search_data[source].musics)
+        albums.extend(search_data[source].albums)
+        artists.extend(search_data[source].artists)
+    print("Musics:")
+    if len(musics) == 0:
+        print('\tNothing!')
+    else:
+        for i in musics:
+            print("\t", "%s." % counter, "[%s]" % i.source.__site_name__, i.full_title)
 
 
 if __name__ == '__main__':
@@ -49,8 +45,7 @@ if __name__ == '__main__':
     manager.register(RadioJavan)
     manager.register(WikiSeda)
     search = manager.search(args.query)
-    for source in search.keys():
-        counter = print_result(source, search[source], counter)
+    print_result(search)
     _input = input("Select an item to download (q for exit): ")
     if _input == "q":
         exit()
