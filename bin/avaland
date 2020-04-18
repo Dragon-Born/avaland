@@ -13,19 +13,13 @@ parser.add_argument("--path", type=str, help='path to download')
 parser.add_argument("--sources", type=str, help='list of sources (default: --sources all)\n'
                                                 'available sources: bia2, next1, navahang, radiojavan, rapfarsi,'
                                                 'wikiseda')
+parser.add_argument("--dl-first", help='download first music in list', nargs="?", type=str, default="")
 
 args = parser.parse_args()
 
 
-def print_result(search_data):
-    musics = []  # type: List[Music]
-    albums = []  # type: List[Album]
-    artists = []  # type: List[Artist]
+def print_result(musics, albums, artists):
     counter = 1
-    for source in search_data:
-        musics.extend(search_data[source].musics)
-        albums.extend(search_data[source].albums)
-        artists.extend(search_data[source].artists)
     print("\nMusics:")
     if len(musics) == 0:
         print('\tNothing!')
@@ -63,7 +57,17 @@ if __name__ == '__main__':
     manager.register(RadioJavan)
     manager.register(WikiSeda)
     search = manager.search(args.query)
-    print_result(search)
+    musics = []
+    albums = []
+    artists = []
+    for source in search:
+        musics.extend(search[source].musics)
+        albums.extend(search[source].albums)
+        artists.extend(search[source].artists)
+    if args.dl_first is None:
+        musics[0].download()
+        exit()
+    print_result(musics, albums, artists)
     _input = input("Select an item to download (q for exit): ")
     if _input == "q":
         exit()
