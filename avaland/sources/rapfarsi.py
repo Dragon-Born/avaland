@@ -40,7 +40,7 @@ class RapFarsi(MusicBase):
         # type: (str) -> SearchResult
         try:
             res = requests.post(self._search_url.format(query=quote(query)), headers=self._headers,
-                               timeout=MAX_TIME_OUT)
+                                timeout=MAX_TIME_OUT)
         except ConnectionError:
             raise SourceNetworkError("Cannot connect to RapFarsi server.")
         except HTTPError:
@@ -70,6 +70,23 @@ class RapFarsi(MusicBase):
             raise SourceNetworkError("Cannot connect to RapFarsi server. (HTTPError)")
         data = res.json()['Post']
         return data.get('title'), data.get('artistTitle'), data['track320']['link']
+
+    def get_album(self, album_id):
+        # type: (str) -> SearchResult
+        try:
+            res = requests.post(self._download_url.format(id=album_id), timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to Next1 server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to Next1 server. (HTTPError)")
+        musics = []
+        data = res.json()['Post']
+        for i in data['albumList']:
+            artist, title = i['title'].split(" - ")
+            musics.append(
+                Music(id=i['id'], title=self._reformat(title), artist=artist, url=self._site_url + data['link'],
+                      image=i["cover"]['full'], source=RapFarsi, download_link=i['track320']['link']))
+        return SearchResult(musics=musics)
 
     def download(self, music_id, path=None):
         # type: (int, str) -> Download

@@ -21,7 +21,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class Navahang(MusicBase):
     __site_name__ = 'Navahang'
     _search_url = "https://navahang.com/main-search.php?q={query}&size=50"
-    _download_url = "https://173.236.47.154/webservice/GetSingleMediaInfo?media_id={id}"
+    _api_url = "https://navahang.co/navaapi2/"
     _site_url = 'https://www.navahang.com'
 
     def __init__(self, config):
@@ -78,8 +78,28 @@ class Navahang(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    def get_artist(self, artist_id):
+        pass  # TODO: GetArtistById?id={id}'
+
+    def get_album(self, album_id):
+        # type: (str) -> SearchResult
+        url = self._api_url + "GetPlaylistSongs?playlistId={id}".format(id=album_id)
+        try:
+            res = requests.get(url, timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to Navahang server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to Navahang server. (HTTPError)")
+        musics = []
+        data = res.json()['SONG_LIST']
+        for i in data:
+            musics.append(
+                Music(id=i["post_id"], title=self._reformat(i['song_name']), artist=i['artist_name'],
+                      url=res.json()['SHARE_LINK']['link'], image=i['image_Mp3'], source=Navahang))
+        return SearchResult(musics=musics)
+
     def get_download_url(self, music_id):
-        url = self._download_url.format(id=music_id)
+        url = self._api_url + "GetSingleMediaInfo?media_id={id}".format(id=music_id)
         try:
             res = requests.get(url, verify=False, timeout=MAX_TIME_OUT)
         except ConnectionError:

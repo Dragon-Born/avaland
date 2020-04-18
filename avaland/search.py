@@ -1,9 +1,9 @@
 class SearchResult(object):
 
-    def __init__(self, musics, albums, artists):
-        self.musics = tuple(musics)
-        self.albums = tuple(albums)
-        self.artists = tuple(artists)
+    def __init__(self, musics=None, albums=None, artists=None):
+        self.musics = tuple(musics) if musics else tuple()
+        self.albums = tuple(albums) if albums else tuple()
+        self.artists = tuple(artists) if artists else tuple()
         self.record_count = len(self.musics) + len(self.albums) + len(self.artists)
 
     def to_dict(self):

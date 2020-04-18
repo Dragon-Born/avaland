@@ -71,6 +71,23 @@ class RadioJavan(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    def get_album(self, album_id):
+        # type: (str) -> SearchResult
+        try:
+            res = requests.get(self._download_url.format(id=album_id), timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to Next1 server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to Next1 server. (HTTPError)")
+        musics = []
+        data = res.json()
+        for i in data['related']:
+            if i['type'] == 'mp3':
+                musics.append(
+                    Music(id=i['id'], title=self._reformat(i['song']), artist=i['artist'],
+                          url=i['share_link'], image=i["photo"], source=RadioJavan, download_link=i['link']))
+        return SearchResult(musics=musics)
+
     def get_download_url(self, music_id):
         url = self._download_url.format(id=music_id)
         try:

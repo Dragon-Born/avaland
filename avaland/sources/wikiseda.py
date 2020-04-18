@@ -21,7 +21,7 @@ class WikiSeda(MusicBase):
     __site_name__ = 'WikiSeda'
 
     _search_url = "http://www.getsongg.com/dapp/?order=top&type=all&page=1&query={query}&lang=en&v=70022"
-    _download_url = "http://www.getsongg.com/dapp/gettrackdetail?id={id}&lang=en"
+    _download_url = "http://www.getsongg.com/dapp/"
     _site_url = 'https://www.wikiseda.com/'
 
     def __init__(self, config):
@@ -66,8 +66,25 @@ class WikiSeda(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    def get_album(self, album_id):
+        # type: (str) -> SearchResult
+        try:
+            url = self._download_url + "getalbumdetail?id={id}&lang=en".format(id=album_id)
+            res = requests.get(url, timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to Next1 server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to Next1 server. (HTTPError)")
+        musics = []
+        data = res.json()['song']
+        for i in data['albumtracks']:
+            musics.append(
+                Music(id=int(i['id']), title=self._reformat(i['songname']), artist=i['artist'], url=i['url'],
+                      image=i["poster"], source=WikiSeda, download_link=i['mp3']))
+        return SearchResult(musics=musics)
+
     def get_download_url(self, music_id):
-        url = self._download_url.format(id=music_id)
+        url = self._download_url + "gettrackdetail?id={id}&lang=en".format(id=music_id)
         try:
             res = requests.get(url, timeout=MAX_TIME_OUT)
         except ConnectionError:

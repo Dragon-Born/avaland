@@ -48,6 +48,7 @@ class Bia2(MusicBase):
 
         if res.status_code == 404:
             pass  # TODO: get new engine key
+        print(res)
         data = res.json()['records']['page']
         musics = []
         albums = []
@@ -68,6 +69,26 @@ class Bia2(MusicBase):
                           url=i['url'], image=i['image'], source=Bia2))
 
         return SearchResult(musics, albums, artists)
+
+    def get_artist(self, artist_id):
+        pass  # TODO: artist.xml?id={}
+
+    def get_album(self, album_id):
+        # type: (str) -> SearchResult
+        url = self._download_url + '/album.xml?album={}'.format(album_id)
+        try:
+            res = requests.get(url, timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to bia2music server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to bia2music server. (HTTPError)")
+        data = ElementTree.fromstring(res.content)[0]
+        musics = []
+        for i in data:
+            musics.append(
+                Music(id=i["id"], title=self._reformat(i['title']), artist=data.get('artist'),
+                      url=data.get('share_url'), image=data.get('cover'), source=Bia2))
+        return SearchResult(musics=musics)
 
     def get_download_url(self, music_id):
         url = self._download_url + '/music.xml?id={}'.format(music_id)

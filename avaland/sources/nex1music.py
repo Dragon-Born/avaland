@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 
 import requests
 import urllib3
@@ -71,6 +72,26 @@ class Nex1(MusicBase):
             raise SourceNetworkError("Cannot connect to Nex1 Music server. (HTTPError)")
         data = res.json()
         return data.get('TrackEn'), data.get('ArtistEn'), data.get('Music320')
+
+    def get_artist(self, artist_id):
+        pass  # TODO: I'M TIRED OF THIS SHIT
+
+    def get_album(self, album_id):
+        # type: (str) -> SearchResult
+        try:
+            res = requests.post(self._download_url, data={"post_id": album_id}, timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to Next1 server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to Next1 server. (HTTPError)")
+        musics = []
+        data = json.loads(res.json()['AlbumTrackList'])
+        for i in data:
+            musics.append(
+                Music(id=None, title=self._reformat(i['album_track_name_en']), artist=res.json()["ArtistEn"],
+                      url=res.json()['PostUrl'], image=res.json()["Image"], source=Nex1,
+                      download_url=i['album_track_link_320']))
+        return SearchResult(musics=musics)
 
     def download(self, music_id, path=None):
         # type: (int, str) -> Download

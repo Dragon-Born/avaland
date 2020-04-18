@@ -1,5 +1,7 @@
 from typing import Tuple
 
+from avaland.download import Download
+
 
 class Music:
     id = None  # type: int
@@ -18,6 +20,11 @@ class Music:
         self.full_title = self.title + ' - ' + self.artist if self.artist else self.title
 
     def download(self, path=None):
+        download_url = getattr(self, "download_url", None)
+        if download_url:
+            download = Download(self.title, self.artist, download_url, path)
+            download.get()
+            return download
         return self.source({}).download(self.id, path)
 
     def __getitem__(self, item):
@@ -30,13 +37,16 @@ class Music:
 
 class Album:
     id = None  # type: int
-    titl = None  # type: str
-    artis = None  # type: str
+    title = None  # type: str
+    artist = None  # type: str
     full_title = None  # type: str
     musics = None  # type: Tuple[Music]
     image = None  # type: str
 
     source = None
+
+    def get_musics(self):
+        return self.source({}).get_album(album_id=self.id)
 
     def __init__(self, **kwargs):
         for i in kwargs.keys():
