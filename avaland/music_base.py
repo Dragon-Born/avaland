@@ -15,6 +15,14 @@ class MusicBase(object):
         # type: (str) -> SearchResult
         raise NotImplementedError
 
+    def get_artist(self, artist_id):
+        # type: (str) -> SearchResult
+        raise NotImplementedError
+
+    def get_album(self, album_id):
+        # type: (str) -> SearchResult
+        raise NotImplementedError
+
     def get_download_url(self, music):
         # type: (Music) -> str
         raise NotImplementedError
