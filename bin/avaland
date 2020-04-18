@@ -45,6 +45,9 @@ if __name__ == '__main__':
     manager.register(Bia2)
     manager.register(Nex1)
     manager.register(RapFarsi)
+    manager.register(Navahang)
+    manager.register(RadioJavan)
+    manager.register(WikiSeda)
     search = manager.search(args.query)
     for source in search.keys():
         counter = print_result(source, search[source], counter)
