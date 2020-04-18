@@ -30,13 +30,28 @@ def print_result(search_data):
     if len(musics) == 0:
         print('\tNothing!')
     else:
-        for i in musics:
-            print("\t", "%s." % counter, "[%s]" % i.source.__site_name__, i.full_title)
+        for music in musics:
+            print("\t", "%s." % counter, "[%s]" % music.source.__site_name__, music.full_title)
+            counter += 1
+    print("\nAlbums:")
+    if len(albums) == 0:
+        print('\tNothing!')
+    else:
+        for album in albums:
+            print("\t", "%s." % counter, "[%s]" % album.source.__site_name__, album.full_title)
+            counter += 1
+    print("\nAlbums:")
+    if len(artists) == 0:
+        print('\tNothing!')
+    else:
+        for artist in artists:
+            print("\t", "%s." % counter, "[%s]" % artist.source.__site_name__, artist.full_name)
+            counter += 1
 
 
 if __name__ == '__main__':
     items = []
-    counter = 1
+
     manager = SourceManager()
     manager.register(Bia2)
     manager.register(Nex1)
