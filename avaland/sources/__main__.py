@@ -18,6 +18,7 @@ args = parser.parse_args()
 
 
 def print_result(search_data):
+    items = []
     musics = []  # type: List[Music]
     albums = []  # type: List[Album]
     artists = []  # type: List[Artist]
@@ -51,9 +52,10 @@ def print_result(search_data):
             items.append(artist)
             counter += 1
 
+    return items
 
-if __name__ == '__main__':
-    items = []
+
+def main():
 
     manager = SourceManager()
     manager.register(Bia2)
@@ -63,7 +65,7 @@ if __name__ == '__main__':
     manager.register(RadioJavan)
     manager.register(WikiSeda)
     search = manager.search(args.query)
-    print_result(search)
+    items = print_result(search)
     _input = input("Select an item to download (q for exit): ")
     if _input == "q":
         exit()
@@ -76,3 +78,7 @@ if __name__ == '__main__':
         exit()
 
     items[int(_input) - 1].download(args.path)
+
+
+if __name__ == '__main__':
+    main()
