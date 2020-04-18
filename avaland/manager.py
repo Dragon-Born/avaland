@@ -1,9 +1,11 @@
+import time
 import traceback
 from typing import Type, Dict
 
 from avaland.exceptions import AvalandException, SourceNotRegisteredException
 from avaland.music_base import MusicBase
 from avaland.search import SearchResult
+import multiprocessing as mp
 
 
 class SourceManager:
@@ -21,6 +23,14 @@ class SourceManager:
         return "{cls}(sources=<{sources}>)".format(cls=__class__.__name__,
                                                    sources=", ".join(i for i in self._sources.keys()))
 
+    @staticmethod
+    def _search(query, source, return_dict):
+        try:
+            return_dict[type(source).__name__] = source.search(query)
+        except AvalandException:
+            return_dict[type(source).__name__] = SearchResult(None, None, None)
+            print(traceback.format_exc())
+
     def search(self, query, source: Type[MusicBase] = None) -> Dict[str, SearchResult]:
         sources_search = dict()
         if source:
@@ -32,10 +42,14 @@ class SourceManager:
                 sources_search[source.__site_name__] = SearchResult(None, None, None)
                 print(traceback.format_exc())
         else:
+            multi_manager = mp.Manager()
+            sources_search = multi_manager.dict()
+            jobs = []
             for i in self._sources.keys():
-                try:
-                    sources_search[i] = self._sources[i](self._config[self._sources[i].__site_name__]).search(query)
-                except AvalandException:
-                    sources_search[i] = SearchResult(None, None, None)
-                    print(traceback.format_exc())
+                source = self._sources[i](self._config[self._sources[i].__site_name__])
+                p = mp.Process(target=self._search, args=(query, source, sources_search))
+                jobs.append(p)
+                p.start()
+            for proc in jobs:
+                proc.join()
         return sources_search
