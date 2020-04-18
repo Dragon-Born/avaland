@@ -48,7 +48,6 @@ class Bia2(MusicBase):
 
         if res.status_code == 404:
             pass  # TODO: get new engine key
-        print(res)
         data = res.json()['records']['page']
         musics = []
         albums = []
@@ -63,9 +62,8 @@ class Bia2(MusicBase):
                     Artist(id=i["artist_id"], full_name=i['title'], url=i['url'], image=i['image'], source=Bia2))
             elif i['type'] == '':
                 title = self._split_album_title(i['title'])
-
                 albums.append(
-                    Album(id=i["id"], title=self._reformat(title[0]), artist=self._reformat(title[1]),
+                    Album(id=i["url"].split('/')[-1], title=self._reformat(title[0]), artist=self._reformat(title[1]),
                           url=i['url'], image=i['image'], source=Bia2))
 
         return SearchResult(musics, albums, artists)

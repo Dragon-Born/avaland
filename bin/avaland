@@ -15,31 +15,33 @@ parser.add_argument("--sources", type=str, help='list of sources (default: --sou
                                                 'wikiseda')
 parser.add_argument("--dl-first", help='download first music in list', nargs="?", type=str, default="")
 
+parser.add_argument("--dl-album", help='download all musics in an album', nargs="?", type=str, default="")
+
 args = parser.parse_args()
 
 
 def print_result(musics, albums, artists):
     counter = 1
-    print("\nMusics:")
     if len(musics) == 0:
-        print('\tNothing!')
+        return
     else:
+        print("\nMusics:")
         for music in musics:
             print("\t", "%s." % counter, "[%s]" % music.source.__site_name__, music.full_title)
             items.append(music)
             counter += 1
-    print("\nAlbums:")
     if len(albums) == 0:
-        print('\tNothing!')
+        return
     else:
+        print("\nAlbums:")
         for album in albums:
             print("\t", "%s." % counter, "[%s]" % album.source.__site_name__, album.full_title)
             items.append(album)
             counter += 1
-    print("\nArtists:")
     if len(artists) == 0:
-        print('\tNothing!')
+        return
     else:
+        print("\nArtists:")
         for artist in artists:
             print("\t", "%s." % counter, "[%s]" % artist.source.__site_name__, artist.full_name)
             items.append(artist)
@@ -47,8 +49,6 @@ def print_result(musics, albums, artists):
 
 
 if __name__ == '__main__':
-    items = []
-
     manager = SourceManager()
     manager.register(Bia2)
     manager.register(Nex1)
@@ -57,26 +57,35 @@ if __name__ == '__main__':
     manager.register(RadioJavan)
     manager.register(WikiSeda)
     search = manager.search(args.query)
-    musics = []
-    albums = []
-    artists = []
-    for source in search:
-        musics.extend(search[source].musics)
-        albums.extend(search[source].albums)
-        artists.extend(search[source].artists)
-    if args.dl_first is None:
-        musics[0].download(args.path)
-        exit()
-    print_result(musics, albums, artists)
-    _input = input("Select an item to download (q for exit): ")
-    if _input == "q":
-        exit()
-    while (not _input.isdigit()) or len(items) < int(_input) or int(_input) < 1:
-        _input = input("(Invalid!) Select an item to download (q for exit): ")
+    while True:
+        musics = []
+        albums = []
+        artists = []
+        items = []
+        for source in search:
+            musics.extend(search[source].musics)
+            albums.extend(search[source].albums)
+            artists.extend(search[source].artists)
+        if args.dl_first is None:
+            musics[0].download(args.path)
+            exit()
+        print_result(musics, albums, artists)
+        _input = input("\nSelect an item to download (q for exit): ")
         if _input == "q":
             exit()
-    if type(items[int(_input) - 1]).__name__ != 'Music':
-        print("Planned for future...")
-        exit()
+        while (not _input.isdigit()) or len(items) < int(_input) or int(_input) < 1:
+            _input = input("(Invalid!) Select an item to download (q for exit): ")
+            if _input == "q":
+                exit()
+        if type(items[int(_input) - 1]).__name__ == 'Music':
+            items[int(_input) - 1].download(args.path)
+            exit()
+        else:
+            search = {items[int(_input) - 1].source.__name__: items[int(_input) - 1].get_items()}
+            if args.dl_album is None:
+                if type(items[int(_input) - 1]).__name__ == 'Album':
+                    for i in search[items[int(_input) - 1].source.__name__].musics:
+                        i.download(args.path)
+                    exit()
 
-    items[int(_input) - 1].download(args.path)
+
