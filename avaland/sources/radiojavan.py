@@ -57,6 +57,7 @@ class RadioJavan(MusicBase):
 
         if 'albums' in data:
             for i in data['albums']:
+                print(self._reformat(i['album']))
                 albums.append(
                     Album(id=int(i["id"]), title=self._reformat(i['album']), artist=self._reformat(i['artist']),
                           url=i['share_link'], image=i['photo'], source=RadioJavan))
