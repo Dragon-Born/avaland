@@ -58,8 +58,6 @@ class Download:
                     sys.stdout.write("\r%s%%|%s%s| (%s / %s) %s/s" % (
                         percent, "█" * int(done // 3), " " * (int((33 - done // 3))), convert_size(dl),
                         convert_size(total_length), convert_size(int(dl // (time.time() - start))).replace(" ", "")))
-                    sys.stdout.write("\033[F")  # back to previous line
-                    sys.stdout.write("\033[K")
                     sys.stdout.flush()
         print()
         self.path = os.path.join(self.path, self.file_name)
