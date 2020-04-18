@@ -32,6 +32,7 @@ def print_result(search_data):
     else:
         for music in musics:
             print("\t", "%s." % counter, "[%s]" % music.source.__site_name__, music.full_title)
+            items.append(music)
             counter += 1
     print("\nAlbums:")
     if len(albums) == 0:
@@ -39,6 +40,7 @@ def print_result(search_data):
     else:
         for album in albums:
             print("\t", "%s." % counter, "[%s]" % album.source.__site_name__, album.full_title)
+            items.append(album)
             counter += 1
     print("\nAlbums:")
     if len(artists) == 0:
@@ -46,6 +48,7 @@ def print_result(search_data):
     else:
         for artist in artists:
             print("\t", "%s." % counter, "[%s]" % artist.source.__site_name__, artist.full_name)
+            items.append(artist)
             counter += 1
 
 
@@ -60,7 +63,7 @@ if __name__ == '__main__':
     manager.register(RadioJavan)
     manager.register(WikiSeda)
     search = manager.search(args.query)
-    print_result(search)
+    items = print_result(search)
     _input = input("Select an item to download (q for exit): ")
     if _input == "q":
         exit()
