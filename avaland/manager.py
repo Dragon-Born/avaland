@@ -12,7 +12,11 @@ class SourceManager:
     _config = dict()
     _sources = dict()
 
-    def register(self, source: Type[MusicBase], config=None):
+    def __init__(self):
+        pass
+
+    def register(self, source, config=None):
+        # type: (Type[MusicBase], dict) -> SourceManager
         if config is None:
             config = {}
         self._sources[source.__site_name__] = source
@@ -20,7 +24,7 @@ class SourceManager:
         return self
 
     def __repr__(self):
-        return "{cls}(sources=<{sources}>)".format(cls=__class__.__name__,
+        return "{cls}(sources=<{sources}>)".format(cls=SourceManager.__name__,
                                                    sources=", ".join(i for i in self._sources.keys()))
 
     @staticmethod
@@ -31,7 +35,8 @@ class SourceManager:
             return_dict[type(source).__name__] = SearchResult(None, None, None)
             print(traceback.format_exc())
 
-    def search(self, query, source: Type[MusicBase] = None) -> Dict[str, SearchResult]:
+    def search(self, query, source=None):
+        # type: (str, Type[MusicBase]) -> Dict[str, SearchResult]
         sources_search = dict()
         if source:
             if source.__site_name__ not in self._sources:

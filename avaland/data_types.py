@@ -2,13 +2,13 @@ from typing import Tuple
 
 
 class Music:
-    id: int
-    title: str
-    artist: str
-    full_title: str
-    album: str
-    image: str
-    url: str
+    id = None  # type: int
+    title = None  # type: str
+    artist = None  # type: str
+    full_title = None  # type: str
+    album = None  # type: str
+    image = None  # type: str
+    url = None  # type: str
 
     source = None
 
@@ -29,12 +29,12 @@ class Music:
 
 
 class Album:
-    id: int
-    title: str
-    artist: str
-    full_title: str
-    musics: Tuple[Music]
-    image: str
+    id = None  # type: int
+    titl = None  # type: str
+    artis = None  # type: str
+    full_title = None  # type: str
+    musics = None  # type: Tuple[Music]
+    image = None  # type: str
 
     source = None
 
@@ -49,12 +49,12 @@ class Album:
 
 
 class Artist:
-    id: int
-    full_name: str
-    musics: Tuple[Music]
-    albums: Tuple[Album]
-    image: str
-    url: str
+    id = None  # type: int
+    full_name = None  # type: str
+    musics = None  # type: Tuple[Music]
+    albums = None  # type: Tuple[Album]
+    image = None  # type: str
+    url = None  # type: str
 
     source = None
 

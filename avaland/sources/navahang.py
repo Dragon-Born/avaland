@@ -1,8 +1,12 @@
-from urllib.parse import quote
+# -*- coding: utf-8 -*-
+try:
+    from urllib.parse import quote
+except ImportError:
+    from urllib import quote
 
 import requests
 import urllib3
-from requests import HTTPError
+from requests import HTTPError, ConnectionError
 
 from avaland.config import MAX_TIME_OUT
 from avaland.data_types import Music, Artist, Album
@@ -21,7 +25,7 @@ class Navahang(MusicBase):
     _site_url = 'https://www.navahang.com'
 
     def __init__(self, config):
-        super().__init__(config)
+        MusicBase.__init__(self, config)
 
     @staticmethod
     def _reformat(text):
@@ -35,7 +39,8 @@ class Navahang(MusicBase):
             return title.split("-")
         return title, None
 
-    def search(self, query) -> SearchResult:
+    def search(self, query):
+        # type: (str) -> SearchResult
         try:
             res = requests.get(self._search_url.format(query=quote(query)), timeout=MAX_TIME_OUT)
         except ConnectionError:
@@ -84,7 +89,8 @@ class Navahang(MusicBase):
         data = res.json()[0]
         return data.get('song_name'), data.get('artist_name'), data.get('download')
 
-    def download(self, music_id, path=None) -> Download:
+    def download(self, music_id, path=None):
+        # type: (int, str) -> Download
         title, artist, url = self.get_download_url(music_id)
         download = Download(title, artist, url, path)
         download.get()

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from xml.etree import ElementTree
 
 import requests
@@ -20,7 +22,7 @@ class Bia2(MusicBase):
     _engine_key = "TxEmaszMvyJTZhnHaDBq"
 
     def __init__(self, config):
-        super().__init__(config)
+        MusicBase.__init__(self, config)
 
     @staticmethod
     def _reformat(text):
@@ -34,7 +36,8 @@ class Bia2(MusicBase):
             return title.split("-")
         return title, None
 
-    def search(self, query) -> SearchResult:
+    def search(self, query):
+        # type: (str) -> SearchResult
         try:
             res = requests.post(self._search_url,
                                 data={"engine_key": self._engine_key, "q": query, "per_page": 50}, timeout=MAX_TIME_OUT)
@@ -77,7 +80,8 @@ class Bia2(MusicBase):
         data = ElementTree.fromstring(res.content)[0]
         return data.get('Title'), data.get('Artist'), data.get('mp3')
 
-    def download(self, music_id, path=None) -> Download:
+    def download(self, music_id, path=None):
+        # type: (int, str) -> Download
         title, artist, url = self.get_download_url(music_id)
         download = Download(title, artist, url, path)
         download.get()

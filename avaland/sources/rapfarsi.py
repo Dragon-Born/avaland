@@ -1,7 +1,13 @@
-from urllib.parse import quote
+# -*- coding: utf-8 -*-
+
+
+try:
+    from urllib.parse import quote
+except ImportError:
+    from urllib import quote
 
 import requests
-from requests import HTTPError
+from requests import HTTPError, ConnectionError
 
 from avaland.config import MAX_TIME_OUT
 from avaland.data_types import Music, Album
@@ -24,13 +30,14 @@ class RapFarsi(MusicBase):
     _site_url = 'https://www.rapfarsi.co'
 
     def __init__(self, config):
-        super().__init__(config)
+        MusicBase.__init__(self, config)
 
     @staticmethod
     def _reformat(text):
         return text
 
-    def search(self, query) -> SearchResult:
+    def search(self, query):
+        # type: (str) -> SearchResult
         try:
             res = requests.post(self._search_url.format(query=quote(query)), headers=self._headers,
                                timeout=MAX_TIME_OUT)
@@ -64,7 +71,8 @@ class RapFarsi(MusicBase):
         data = res.json()['Post']
         return data.get('title'), data.get('artistTitle'), data['track320']['link']
 
-    def download(self, music_id, path=None) -> Download:
+    def download(self, music_id, path=None):
+        # type: (int, str) -> Download
         title, artist, url = self.get_download_url(music_id)
         download = Download(title, artist, url, path)
         download.get()

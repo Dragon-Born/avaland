@@ -3,7 +3,7 @@ from avaland.download import Download
 from avaland.search import SearchResult
 
 
-class MusicBase:
+class MusicBase(object):
     __site_name__ = ''
     config = dict()
     testing = False
@@ -11,11 +11,14 @@ class MusicBase:
     def __init__(self, config):
         self.config = config
 
-    def search(self, query: str) -> SearchResult:
+    def search(self, query):
+        # type: (str) -> SearchResult
         raise NotImplementedError
 
-    def get_download_url(self, music: Music) -> str:
+    def get_download_url(self, music):
+        # type: (Music) -> str
         raise NotImplementedError
 
-    def download(self, music_id, path=None) -> Download:
+    def download(self, music_id, path=None):
+        # type: (int, str) -> Download
         raise NotImplementedError

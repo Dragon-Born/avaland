@@ -1,7 +1,13 @@
-from urllib.parse import quote
+# -*- coding: utf-8 -*-
+
+
+try:
+    from urllib.parse import quote
+except ImportError:
+    from urllib import quote
 
 import requests
-from requests import HTTPError
+from requests import HTTPError, ConnectionError
 
 from avaland.config import MAX_TIME_OUT
 from avaland.data_types import Music, Artist, Album
@@ -19,7 +25,7 @@ class RadioJavan(MusicBase):
     _site_url = 'https://www.radiojavan.com'
 
     def __init__(self, config):
-        super().__init__(config)
+        MusicBase.__init__(self, config)
 
     @staticmethod
     def _reformat(text):
@@ -33,7 +39,8 @@ class RadioJavan(MusicBase):
             return title.split("-")
         return title, None
 
-    def search(self, query) -> SearchResult:
+    def search(self, query):
+        # type: (str) -> SearchResult
         try:
             res = requests.get(self._search_url.format(query=quote(query)), timeout=MAX_TIME_OUT)
         except ConnectionError:
@@ -59,7 +66,7 @@ class RadioJavan(MusicBase):
             for i in data['albums']:
                 albums.append(
                     Album(id=int(i["id"]), title=self._reformat(i['album_album']),
-                          artist=self._reformat(i['album_artist']),url=i['share_link'], image=i['photo'],
+                          artist=self._reformat(i['album_artist']), url=i['share_link'], image=i['photo'],
                           source=RadioJavan))
 
         return SearchResult(musics, albums, artists)
@@ -75,7 +82,8 @@ class RadioJavan(MusicBase):
         data = res.json()
         return data.get('song'), data.get('artist'), data.get('link')
 
-    def download(self, music_id, path=None) -> Download:
+    def download(self, music_id, path=None):
+        # type: (int, str) -> Download
         title, artist, url = self.get_download_url(music_id)
         download = Download(title, artist, url, path)
         download.get()

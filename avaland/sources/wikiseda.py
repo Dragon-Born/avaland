@@ -1,7 +1,13 @@
-from urllib.parse import quote
+# -*- coding: utf-8 -*-
+
+
+try:
+    from urllib.parse import quote
+except ImportError:
+    from urllib import quote
 
 import requests
-from requests import HTTPError
+from requests import HTTPError, ConnectionError
 
 from avaland.config import MAX_TIME_OUT
 from avaland.data_types import Music, Artist, Album
@@ -12,7 +18,6 @@ from avaland.search import SearchResult
 
 
 class WikiSeda(MusicBase):
-
     __site_name__ = 'WikiSeda'
 
     _search_url = "http://www.getsongg.com/dapp/?order=top&type=all&page=1&query={query}&lang=en&v=70022"
@@ -20,7 +25,7 @@ class WikiSeda(MusicBase):
     _site_url = 'https://www.wikiseda.com/'
 
     def __init__(self, config):
-        super().__init__(config)
+        MusicBase.__init__(self, config)
 
     @staticmethod
     def _reformat(text):
@@ -34,7 +39,8 @@ class WikiSeda(MusicBase):
             return title.split("-")
         return title, None
 
-    def search(self, query) -> SearchResult:
+    def search(self, query):
+        # type: (str) -> SearchResult
         try:
             res = requests.post(self._search_url.format(query=quote(query)), timeout=MAX_TIME_OUT)
         except ConnectionError:
@@ -71,7 +77,8 @@ class WikiSeda(MusicBase):
         data = res.json()['song'][0]
         return data.get('songname'), data.get('artist'), data.get('mp3')
 
-    def download(self, music_id, path=None) -> Download:
+    def download(self, music_id, path=None):
+        # type: (int, str) -> Download
         title, artist, url = self.get_download_url(music_id)
         download = Download(title, artist, url, path)
         download.get()

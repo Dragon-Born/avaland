@@ -1,11 +1,16 @@
+# -*- coding: utf-8 -*-
+
 import math
 import os
-import pathlib
+try:
+    import pathlib
+except ImportError:
+    import pathlib2
 import sys
 import time
 
 import requests
-from requests import HTTPError
+from requests import HTTPError, ConnectionError
 
 from avaland.exceptions import SourceNetworkError
 
@@ -60,4 +65,4 @@ class Download:
         self.path = os.path.join(self.path, self.file_name)
 
     def __repr__(self):
-        return "{cls}(url={url}, path={path})".format(cls=__class__.__name__, url=self.url, path=self.path)
+        return "{cls}(url={url}, path={path})".format(cls=Download.__name__, url=self.url, path=self.path)

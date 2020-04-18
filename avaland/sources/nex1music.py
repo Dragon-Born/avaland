@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import requests
 import urllib3
-from requests import HTTPError
+from requests import HTTPError, ConnectionError
 
 from avaland.config import MAX_TIME_OUT
 from avaland.data_types import Music, Album
@@ -20,7 +22,7 @@ class Nex1(MusicBase):
     _site_url = 'https://nex1music.ir'
 
     def __init__(self, config):
-        super().__init__(config)
+        MusicBase.__init__(self, config)
 
     @staticmethod
     def _reformat(text):
@@ -34,7 +36,8 @@ class Nex1(MusicBase):
             return title.split("-")
         return title, None
 
-    def search(self, query) -> SearchResult:
+    def search(self, query):
+        # type: (str) -> SearchResult
         try:
             res = requests.post(self._search_url, data={"text": query}, timeout=MAX_TIME_OUT)
         except ConnectionError:
@@ -69,7 +72,8 @@ class Nex1(MusicBase):
         data = res.json()
         return data.get('TrackEn'), data.get('ArtistEn'), data.get('Music320')
 
-    def download(self, music_id, path=None) -> Download:
+    def download(self, music_id, path=None):
+        # type: (int, str) -> Download
         title, artist, url = self.get_download_url(music_id)
         download = Download(title, artist, url, path)
         download.get()

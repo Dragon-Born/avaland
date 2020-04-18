@@ -11,14 +11,20 @@ setup(name='Avaland Music Downloader',
       author='Arian Amiramjadi',
       author_email='me@arian.lol',
       packages=find_packages(),
-      install_requires=["requests"],
+      install_requires=["requests", 'pathlib2', "typing"],
       scripts=['bin/avaland'],
       classifiers=[
           'Development Status :: 3 - Alpha',
           # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
           'Intended Audience :: Developers',  # Define that your audience are developers
+          'Environment :: Console',
           'Topic :: Software Development :: Build Tools',
           'License :: OSI Approved :: mit License',  # Again, pick a license
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.2',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
