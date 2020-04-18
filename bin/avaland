@@ -26,7 +26,7 @@ def print_result(search_data):
         musics.extend(search_data[source].musics)
         albums.extend(search_data[source].albums)
         artists.extend(search_data[source].artists)
-    print("Musics:")
+    print("\nMusics:")
     if len(musics) == 0:
         print('\tNothing!')
     else:
