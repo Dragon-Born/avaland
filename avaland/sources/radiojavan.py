@@ -59,7 +59,7 @@ class RadioJavan(MusicBase):
             for i in data['albums']:
                 albums.append(
                     Album(id=int(i["id"]), title=self._reformat(i['album']), artist=self._reformat(i['artist']),
-                          url=self._site_url + i['url'], image=i['image'], source=RadioJavan))
+                          url=i['share_link'], image=i['photo'], source=RadioJavan))
 
         return SearchResult(musics, albums, artists)
 

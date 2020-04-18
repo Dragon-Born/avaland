@@ -63,7 +63,10 @@ class Navahang(MusicBase):
 
         if 'Album' in data:
             for i in data['Album']:
-                album, artist = i['title'].split(' – ')
+                try:
+                    album, artist = i['title'].split(' – ')
+                except:
+                    album, artist = i['title'], None
                 albums.append(
                     Album(id=int(i["id"]), title=self._reformat(album), artist=self._reformat(artist),
                           url=self._site_url + i['url'], image=i['image'], source=Navahang))
