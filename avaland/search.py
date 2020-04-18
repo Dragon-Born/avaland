@@ -1,4 +1,4 @@
-class SearchResult:
+class SearchResult(object):
 
     def __init__(self, musics, albums, artists):
         self.musics = tuple(musics)
