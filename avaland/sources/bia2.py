@@ -107,7 +107,7 @@ class Bia2(MusicBase):
         musics = []
         for i in data:
             musics.append(
-                Music(id=i["id"], title=self._reformat(i['title']), artist=data.get('artist'),
+                Music(id=i.get("id"), title=self._reformat(i.get("title")), artist=data.get('artist'),
                       url=data.get('share_url'), image=data.get('cover'), source=Bia2))
         return SearchResult(musics=musics)
 
