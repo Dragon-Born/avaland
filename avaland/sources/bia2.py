@@ -24,7 +24,7 @@ class Bia2(MusicBase):
 
     @staticmethod
     def _reformat(text):
-        return text
+        return text.replace("on Bia2")
 
     @staticmethod
     def _split_album_title(title):

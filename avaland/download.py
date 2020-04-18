@@ -50,9 +50,11 @@ class Download:
                     f.write(data)
                     done = int(100 * dl / total_length)
                     percent = " " + str(done) if done < 10 else done
-                    sys.stdout.write("\r%s%%|%s%s| (%s / %s) %s/s\033[K" % (
+                    sys.stdout.write("%s%%|%s%s| (%s / %s) %s/s" % (
                         percent, "█" * int(done // 2), " " * (int((50 - done // 2))), convert_size(dl),
                         convert_size(total_length), convert_size(int(dl // (time.time() - start))).replace(" ", "")))
+                    sys.stdout.write("\033[F")  # back to previous line
+                    sys.stdout.write("\033[K")
                     sys.stdout.flush()
         print()
         self.path = os.path.join(self.path, self.file_name)
