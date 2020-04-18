@@ -65,7 +65,7 @@ if __name__ == '__main__':
         albums.extend(search[source].albums)
         artists.extend(search[source].artists)
     if args.dl_first is None:
-        musics[0].download()
+        musics[0].download(args.path)
         exit()
     print_result(musics, albums, artists)
     _input = input("Select an item to download (q for exit): ")
