@@ -12,7 +12,7 @@ setup(name='Avaland Music Downloader',
       author_email='me@arian.lol',
       packages=find_packages(),
       install_requires=["requests", 'pathlib2', "typing"],
-      scripts=['bin/avaland'],
+      #scripts=['bin/avaland'],
       entry_points={'console_scripts': [
           'avaland = avaland.__main__:main',
       ]},
