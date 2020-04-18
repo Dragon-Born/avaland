@@ -14,7 +14,7 @@ setup(name='Avaland Music Downloader',
       install_requires=["requests", 'pathlib2', "typing"],
       #scripts=['bin/avaland'],
       entry_points={'console_scripts': [
-          'avaland = avaland.__main__',
+          'avaland = avaland:main',
       ]},
       classifiers=[
           'Development Status :: 3 - Alpha',
