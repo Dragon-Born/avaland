@@ -13,7 +13,7 @@ from avaland.search import SearchResult
 
 class WikiSeda(MusicBase):
 
-    __site_name__ = 'wikiseda'
+    __site_name__ = 'WikiSeda'
 
     _search_url = "http://www.getsongg.com/dapp/?order=top&type=all&page=1&query={query}&lang=en&v=70022"
     _download_url = "http://www.getsongg.com/dapp/gettrackdetail?id={id}&lang=en"

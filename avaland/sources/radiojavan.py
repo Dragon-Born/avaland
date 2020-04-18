@@ -12,7 +12,7 @@ from avaland.search import SearchResult
 
 
 class RadioJavan(MusicBase):
-    __site_name__ = 'radiojavan'
+    __site_name__ = 'RadioJavan'
 
     _search_url = "https://api-rjvn.app/api2/search?query={query}"
     _download_url = "https://api-rjvn.app/api2/mp3?id={id}"

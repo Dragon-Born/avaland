@@ -13,7 +13,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class Nex1(MusicBase):
-    __site_name__ = 'nex1music'
+    __site_name__ = 'Nex1Music'
 
     _search_url = "https://apin1mservice.com/WebService/search.php"
     _download_url = "https://apin1mservice.com/WebService/music-more.php"

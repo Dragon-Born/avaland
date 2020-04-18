@@ -12,7 +12,7 @@ from avaland.search import SearchResult
 
 
 class Bia2(MusicBase):
-    __site_name__ = 'bia2'
+    __site_name__ = 'Bia2'
 
     _search_url = "http://api.swiftype.com/api/v1/public/engines/search.json"
     _download_url = "http://cdn.biatik.com/api/android/2"

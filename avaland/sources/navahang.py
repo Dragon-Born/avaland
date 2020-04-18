@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class Navahang(MusicBase):
-    __site_name__ = 'navahang'
+    __site_name__ = 'Navahang'
     _search_url = "https://navahang.com/main-search.php?q={query}&size=50"
     _download_url = "https://173.236.47.154/webservice/GetSingleMediaInfo?media_id={id}"
     _site_url = 'https://www.navahang.com'

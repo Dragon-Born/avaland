@@ -12,7 +12,7 @@ from avaland.search import SearchResult
 
 
 class RapFarsi(MusicBase):
-    __site_name__ = 'rapfarsi'
+    __site_name__ = 'RapFarsi'
 
     _search_url = "http://51.89.98.91:3004/S/search/{query}"
 
