@@ -16,6 +16,7 @@ parser.add_argument("--sources", type=str, help='list of sources (default: --sou
 parser.add_argument("--dl-first", help='download first music in list', nargs="?", type=str, default="")
 
 parser.add_argument("--dl-album", help='download all musics in an album', nargs="?", type=str, default="")
+parser.add_argument("--dl-artist", help='download all musics of an artist', nargs="?", type=str, default="")
 
 args = parser.parse_args()
 
@@ -84,6 +85,11 @@ if __name__ == '__main__':
             search = {items[int(_input) - 1].source.__name__: items[int(_input) - 1].get_items()}
             if args.dl_album is None:
                 if type(items[int(_input) - 1]).__name__ == 'Album':
+                    for i in search[items[int(_input) - 1].source.__name__].musics:
+                        i.download(args.path)
+                    exit()
+            if args.dl_artist is None:
+                if type(items[int(_input) - 1]).__name__ == 'Artist':
                     for i in search[items[int(_input) - 1].source.__name__].musics:
                         i.download(args.path)
                     exit()
