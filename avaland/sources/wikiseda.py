@@ -66,6 +66,29 @@ class WikiSeda(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    def get_artist(self, artist_id):
+        # type: (str) -> SearchResult
+        try:
+            url = self._download_url + "getnewcases?signer_id={id}&lang=en".format(id=artist_id)
+            res = requests.get(url, timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to Next1 server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to Next1 server. (HTTPError)")
+        musics = []
+        albums = []
+        data = res.json()['items']
+        for i in data:
+            if i['type'] == 'song':
+                musics.append(
+                    Music(id=int(i["id"]), title=self._reformat(i['songname']), artist=i['artist'], url=i['url'],
+                          image=i['poster'], source=WikiSeda))
+            elif i['type'] == 'album':
+                albums.append(
+                    Album(id=i["id"], title=self._reformat(i['album']), artist=self._reformat(i['artist']),
+                          url=i['url'], image=i['poster'], source=WikiSeda))
+        return SearchResult(musics=musics, albums=albums)
+
     def get_album(self, album_id):
         # type: (str) -> SearchResult
         try:

@@ -71,7 +71,30 @@ class Bia2(MusicBase):
         return SearchResult(musics, albums, artists)
 
     def get_artist(self, artist_id):
-        pass  # TODO: artist.xml?id={}
+        # type: (str) -> SearchResult
+        url = self._download_url + '/artist.xml?id={}'.format(artist_id)
+        try:
+            res = requests.get(url, timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to bia2music server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to bia2music server. (HTTPError)")
+        data = ElementTree.fromstring(res.content)[0]
+        musics = []
+        albums = []
+        for i in range(len(data)):
+            if data[i].tag == 'albums':
+                for j in data[i]:
+                    albums.append(
+                        Album(id=j.get('id'), title=self._reformat(j.get('title')),
+                              artist=self._reformat(data.get("name")), image=j.get('cover'), source=Bia2))
+
+            if data[i].tag == 'singles':
+                for j in data[i]:
+                    musics.append(
+                        Music(id=j.get('id'), title=self._reformat(j.get('title')), artist=data.get("name"),
+                              url=data.get('share_url'), image=j.get('cover'), source=Bia2))
+        return SearchResult(musics=musics, albums=albums)
 
     def get_album(self, album_id):
         # type: (str) -> SearchResult

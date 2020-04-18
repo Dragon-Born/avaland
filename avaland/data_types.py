@@ -1,6 +1,7 @@
 from typing import Tuple
 
 from avaland.download import Download
+from avaland.search import SearchResult
 
 
 class Music:
@@ -45,7 +46,8 @@ class Album:
 
     source = None
 
-    def get_musics(self):
+    def get_items(self):
+        # type: () -> SearchResult
         return self.source({}).get_album(album_id=self.id)
 
     def __init__(self, **kwargs):
@@ -67,6 +69,10 @@ class Artist:
     url = None  # type: str
 
     source = None
+
+    def get_items(self):
+        # type: () -> SearchResult
+        return self.source({}).get_artist(artist_id=self.id)
 
     def __init__(self, **kwargs):
         for i in kwargs.keys():

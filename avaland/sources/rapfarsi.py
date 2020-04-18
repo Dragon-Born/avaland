@@ -71,6 +71,9 @@ class RapFarsi(MusicBase):
         data = res.json()['Post']
         return data.get('title'), data.get('artistTitle'), data['track320']['link']
 
+    def get_artist(self, artist_id):
+        return SearchResult(None, None, None)
+
     def get_album(self, album_id):
         # type: (str) -> SearchResult
         try:

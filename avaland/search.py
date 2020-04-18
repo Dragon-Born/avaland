@@ -20,7 +20,7 @@ class SearchResult(object):
         musics = self.musics[0].full_title + ',...' if len(self.musics) > 0 else None
         albums = self.albums[0].full_title + ',...' if len(self.albums) > 0 else None
         artists = self.artists[0].full_name + ',...' if len(self.artists) > 0 else None
-        return "{cls}(musics=<{musics}>, artists=<{artists}>, albums=<{albums}>)".format(cls=SearchResult.__name__,
+        return "{cls}(musics=<{musics}>, albums=<{albums}>, artists=<{artists}>)".format(cls=SearchResult.__name__,
                                                                                          musics=musics,
-                                                                                         artists=artists,
-                                                                                         albums=albums)
+                                                                                         albums=albums,
+                                                                                         artists=artists)

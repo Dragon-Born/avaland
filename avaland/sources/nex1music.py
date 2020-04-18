@@ -74,7 +74,7 @@ class Nex1(MusicBase):
         return data.get('TrackEn'), data.get('ArtistEn'), data.get('Music320')
 
     def get_artist(self, artist_id):
-        pass  # TODO: I'M TIRED OF THIS SHIT
+        return SearchResult(None, None, None)
 
     def get_album(self, album_id):
         # type: (str) -> SearchResult

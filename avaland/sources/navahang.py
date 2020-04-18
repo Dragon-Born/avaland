@@ -79,7 +79,26 @@ class Navahang(MusicBase):
         return SearchResult(musics, albums, artists)
 
     def get_artist(self, artist_id):
-        pass  # TODO: GetArtistById?id={id}'
+        url = self._api_url + "GetArtistById?id={id}".format(id=artist_id)
+        try:
+            res = requests.get(url, timeout=MAX_TIME_OUT)
+        except ConnectionError:
+            raise SourceNetworkError("Cannot connect to Navahang server.")
+        except HTTPError:
+            raise SourceNetworkError("Cannot connect to Navahang server. (HTTPError)")
+        musics = []
+        albums = []
+        data = res.json()['works']
+        for i in data:
+            if i['category'] == 'MP3':
+                musics.append(
+                    Music(id=i["post_id"], title=self._reformat(i['song_name']), artist=i['artist_name'],
+                          image=i['image'], source=Navahang, download_url=i['high_quality']))
+            elif i['category'] == 'Album':
+                albums.append(
+                    Music(id=i["albumId"], title=self._reformat(i['song']), artist=i['artist'],
+                          image=i['playerimage'], source=Navahang))
+        return SearchResult(musics=musics, albums=albums)
 
     def get_album(self, album_id):
         # type: (str) -> SearchResult
