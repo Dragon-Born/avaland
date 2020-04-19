@@ -1,83 +1,95 @@
 #!/usr/bin/env python
 
 import argparse
-from typing import List
 
-from avaland import Music, Artist, Album
 from avaland.manager import SourceManager
 from avaland.sources import *
 
 parser = argparse.ArgumentParser(description='Avaland Music Downloader')
-parser.add_argument("query", type=str, help='search query')
-parser.add_argument("--path", type=str, help='path to download')
-parser.add_argument("--sources", type=str, help='list of sources (default: --sources all)\n'
-                                                'available sources: bia2, next1, navahang, radiojavan, rapfarsi,'
-                                                'wikiseda')
-parser.add_argument("--dl-first", help='download first music in list', nargs="?", type=str, default="")
+parser.add_argument('query', type=str, help='Search query')
+parser.add_argument('--path', '-p', type=str, help='Path to download music/album')
+parser.add_argument('--sources', '-s', type=str,
+                    help='List of sources (default: --sources all)\n'
+                         'Available sources: Bia2, Next1, Navahang, RadioJavan, RapFarsi, WikiSeda')
+parser.add_argument('--dl-first', '-df', help='Download first music in list', nargs='?', type=str, default='')
 
-parser.add_argument("--dl-album", help='download all musics in an album', nargs="?", type=str, default="")
-parser.add_argument("--dl-artist", help='download all musics of an artist', nargs="?", type=str, default="")
+parser.add_argument('--dl-album', '-da', help='Download all musics in an album', nargs='?', type=str, default='')
+parser.add_argument('--dl-artist', '-dr', help='Download all musics of an artist', nargs='?', type=str, default='')
 
 args = parser.parse_args()
 
 
-def print_result(musics, albums, artists):
+def response(_musics, _albums, _artists):
     counter = 1
-    if len(musics) == 0:
+
+    if len(_musics) == 0:
         return
     else:
-        print("\nMusics:")
-        for music in musics:
-            print("\t", "%s." % counter, "[%s]" % music.source.__site_name__, music.full_title)
+        print('\nMusics:')
+
+        for music in _musics:
+            print('\t', '%s.' % counter, '[%s]' % music.source.__site_name__, music.full_title)
             items.append(music)
             counter += 1
-    if len(albums) == 0:
+
+    if len(_albums) == 0:
         return
     else:
-        print("\nAlbums:")
-        for album in albums:
-            print("\t", "%s." % counter, "[%s]" % album.source.__site_name__, album.full_title)
+        print('\nAlbums:')
+        for album in _albums:
+            print('\t', '%s.' % counter, '[%s]' % album.source.__site_name__, album.full_title)
             items.append(album)
             counter += 1
-    if len(artists) == 0:
+
+    if len(_artists) == 0:
         return
     else:
-        print("\nArtists:")
-        for artist in artists:
-            print("\t", "%s." % counter, "[%s]" % artist.source.__site_name__, artist.full_name)
+        print('\nArtists:')
+        for artist in _artists:
+            print('\t', '%s.' % counter, '[%s]' % artist.source.__site_name__, artist.full_name)
             items.append(artist)
             counter += 1
 
 
 if __name__ == '__main__':
     manager = SourceManager()
+
     manager.register(Bia2)
     manager.register(Nex1)
     manager.register(RapFarsi)
     manager.register(Navahang)
     manager.register(RadioJavan)
     manager.register(WikiSeda)
+
     search = manager.search(args.query)
+
     while True:
+        items = []
         musics = []
         albums = []
         artists = []
-        items = []
+
         for source in search:
             musics.extend(search[source].musics)
             albums.extend(search[source].albums)
             artists.extend(search[source].artists)
+
         if args.dl_first is None:
             musics[0].download(args.path)
             exit()
-        print_result(musics, albums, artists)
-        _input = input("\nSelect an item to download (q for exit): ")
-        if _input == "q":
+
+        response(musics, albums, artists)
+
+        _input = input('\nSelect an item to download (Press Q for exit): ')
+
+        if _input.lower() == 'q':
             exit()
+
         while (not _input.isdigit()) or len(items) < int(_input) or int(_input) < 1:
-            _input = input("(Invalid!) Select an item to download (q for exit): ")
-            if _input == "q":
+            _input = input('(Invalid!) Select an item to download (Press Q for exit): ')
+            if _input.lower() == 'q':
                 exit()
+
         if type(items[int(_input) - 1]).__name__ == 'Music':
             items[int(_input) - 1].download(args.path)
             exit()
@@ -93,5 +105,3 @@ if __name__ == '__main__':
                     for i in search[items[int(_input) - 1].source.__name__].musics:
                         i.download(args.path)
                     exit()
-
-
