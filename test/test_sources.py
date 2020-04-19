@@ -1,7 +1,7 @@
 import inspect
-import sys
 import unittest
 
+from avaland import sources
 from avaland import MusicBase
 from avaland.search import SearchResult
 
@@ -41,8 +41,8 @@ def _create_class(name, obj):
     return _class
 
 
-class_members = inspect.getmembers(sys.modules["avaland.sources"], inspect.isclass)
-classes = []
+class_members = inspect.getmembers(sources, inspect.isclass)
+
 for i in class_members:
     if issubclass(i[1], MusicBase) and i[0] != "MusicBase":
         globals()[i[0]] = _create_class(i[0], i[1])

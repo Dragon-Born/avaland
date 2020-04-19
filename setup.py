@@ -11,6 +11,7 @@ setup(
         'Iranian music', 'Iranian music downloader', 'Iranian music api',
     ],
     license='MIT',
+    test_suite="test",
     author='Arian Amiramjadi',
     author_email='me@arian.lol',
     packages=find_packages(),
