@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from avaland.utils import test_attr
+
 try:
     from urllib.parse import quote
 except ImportError:
@@ -39,6 +41,7 @@ class Navahang(MusicBase):
             return title.split("-")
         return title, None
 
+    @test_attr("hello")
     def search(self, query):
         # type: (str) -> SearchResult
         try:
@@ -78,6 +81,7 @@ class Navahang(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    @test_attr(630620)  # Helen
     def get_artist(self, artist_id):
         url = self._api_url + "GetArtistById?id={id}".format(id=artist_id)
         try:
@@ -100,6 +104,7 @@ class Navahang(MusicBase):
                           image=i['playerimage'], source=Navahang))
         return SearchResult(musics=musics, albums=albums)
 
+    @test_attr(171108)  # Helen - Negahe To
     def get_album(self, album_id):
         # type: (str) -> SearchResult
         url = self._api_url + "GetPlaylistSongs?playlistId={id}".format(id=album_id)
@@ -117,10 +122,11 @@ class Navahang(MusicBase):
                       url=res.json()['SHARE_LINK']['link'], image=i['image_Mp3'], source=Navahang))
         return SearchResult(musics=musics)
 
+    @test_attr(198177)  # Arash - Dooset Daram (Ft. Helena)
     def get_download_url(self, music_id):
         url = self._api_url + "GetSingleMediaInfo?media_id={id}".format(id=music_id)
         try:
-            res = requests.get(url, verify=False, timeout=MAX_TIME_OUT)
+            res = requests.get(url, timeout=MAX_TIME_OUT)
         except ConnectionError:
             raise SourceNetworkError("Cannot connect to Navahang server.")
         except HTTPError:

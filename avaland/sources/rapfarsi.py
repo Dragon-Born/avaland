@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from avaland.utils import test_attr
 
 try:
     from urllib.parse import quote
@@ -36,6 +36,7 @@ class RapFarsi(MusicBase):
     def _reformat(text):
         return text
 
+    @test_attr("hello")
     def search(self, query):
         # type: (str) -> SearchResult
         try:
@@ -60,6 +61,7 @@ class RapFarsi(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    @test_attr("hichkas-dastasho-mosht-karde")  # Dastasho Mosht Karde - Hichkas
     def get_download_url(self, music_id):
         url = self._download_url.format(id=music_id)
         try:
@@ -71,9 +73,11 @@ class RapFarsi(MusicBase):
         data = res.json()['Post']
         return data.get('title'), data.get('artistTitle'), data['track320']['link']
 
+    @test_attr(0)  # nothing!
     def get_artist(self, artist_id):
         return SearchResult(None, None, None)
 
+    @test_attr("hichkas-mojaz")  # Mojaz - Hichkas
     def get_album(self, album_id):
         # type: (str) -> SearchResult
         try:
@@ -85,7 +89,7 @@ class RapFarsi(MusicBase):
         musics = []
         data = res.json()['Post']
         for i in data['albumList']:
-            artist, title = i['title'].split(" - ")
+            artist, title = data['artistTitle'], i['title']
             musics.append(
                 Music(id=i['id'], title=self._reformat(title), artist=artist, url=self._site_url + data['link'],
                       image=i["cover"]['full'], source=RapFarsi, download_link=i['track320']['link']))

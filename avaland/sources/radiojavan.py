@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from avaland.utils import test_attr
 
 try:
     from urllib.parse import quote
@@ -39,6 +39,7 @@ class RadioJavan(MusicBase):
             return title.split("-")
         return title, None
 
+    @test_attr("hello")
     def search(self, query):
         # type: (str) -> SearchResult
         try:
@@ -71,6 +72,7 @@ class RadioJavan(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    @test_attr("Hichkas")  # Hichkas
     def get_artist(self, artist_id):
         # type: (str) -> SearchResult
         try:
@@ -98,6 +100,7 @@ class RadioJavan(MusicBase):
 
         return SearchResult(musics=musics, albums=albums)
 
+    @test_attr(44893)  # Jangale Asfalt - Hichkas
     def get_album(self, album_id):
         # type: (str) -> SearchResult
         try:
@@ -115,6 +118,7 @@ class RadioJavan(MusicBase):
                           url=i['share_link'], image=i["photo"], source=RadioJavan, download_link=i['link']))
         return SearchResult(musics=musics)
 
+    @test_attr(88782)  # Hich - Reza Bahram
     def get_download_url(self, music_id):
         url = self._download_url + "mp3?id={id}".format(id=music_id)
         try:

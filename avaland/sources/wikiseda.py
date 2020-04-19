@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from avaland.utils import test_attr
 
 try:
     from urllib.parse import quote
@@ -39,6 +39,7 @@ class WikiSeda(MusicBase):
             return title.split("-")
         return title, None
 
+    @test_attr("hello")
     def search(self, query):
         # type: (str) -> SearchResult
         try:
@@ -66,6 +67,7 @@ class WikiSeda(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    @test_attr(61)  # Hichkas
     def get_artist(self, artist_id):
         # type: (str) -> SearchResult
         try:
@@ -89,6 +91,7 @@ class WikiSeda(MusicBase):
                           url=i['url'], image=i['poster'], source=WikiSeda))
         return SearchResult(musics=musics, albums=albums)
 
+    @test_attr(1751)  # Ya To Ya Hich Kas - Maryam Heydarzadeh
     def get_album(self, album_id):
         # type: (str) -> SearchResult
         try:
@@ -106,6 +109,7 @@ class WikiSeda(MusicBase):
                       image=i["poster"], source=WikiSeda, download_link=i['mp3']))
         return SearchResult(musics=musics)
 
+    @test_attr(229662)  # Hich - Reza Bahram
     def get_download_url(self, music_id):
         url = self._download_url + "gettrackdetail?id={id}&lang=en".format(id=music_id)
         try:

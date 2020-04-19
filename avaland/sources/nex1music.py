@@ -11,6 +11,7 @@ from avaland.download import Download
 from avaland.exceptions import SourceNetworkError
 from avaland.music_base import MusicBase
 from avaland.search import SearchResult
+from avaland.utils import test_attr
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -37,6 +38,7 @@ class Nex1(MusicBase):
             return title.split("-")
         return title, None
 
+    @test_attr("hello")
     def search(self, query):
         # type: (str) -> SearchResult
         try:
@@ -62,6 +64,7 @@ class Nex1(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    @test_attr(12715)  # Hel Hele - Amir Masih
     def get_download_url(self, music_id):
         url = self._download_url
         try:
@@ -73,9 +76,11 @@ class Nex1(MusicBase):
         data = res.json()
         return data.get('TrackEn'), data.get('ArtistEn'), data.get('Music320')
 
+    @test_attr(0)  # nothing!
     def get_artist(self, artist_id):
         return SearchResult(None, None, None)
 
+    @test_attr(12792)  # Mojaz - Hichkas
     def get_album(self, album_id):
         # type: (str) -> SearchResult
         try:

@@ -11,6 +11,7 @@ from avaland.download import Download
 from avaland.exceptions import SourceNetworkError
 from avaland.music_base import MusicBase
 from avaland.search import SearchResult
+from avaland.utils import test_attr
 
 
 class Bia2(MusicBase):
@@ -36,6 +37,7 @@ class Bia2(MusicBase):
             return title.split("-")
         return title, None
 
+    @test_attr("hello")
     def search(self, query):
         # type: (str) -> SearchResult
         try:
@@ -68,8 +70,9 @@ class Bia2(MusicBase):
 
         return SearchResult(musics, albums, artists)
 
+    @test_attr(548)  # Helen
     def get_artist(self, artist_id):
-        # type: (str) -> SearchResult
+        # type: (int) -> SearchResult
         url = self._download_url + '/artist.xml?id={}'.format(artist_id)
         try:
             res = requests.get(url, timeout=MAX_TIME_OUT)
@@ -94,8 +97,9 @@ class Bia2(MusicBase):
                               url=data.get('share_url'), image=j.get('cover'), source=Bia2))
         return SearchResult(musics=musics, albums=albums)
 
+    @test_attr(1267)  # Moon And Star - Helen
     def get_album(self, album_id):
-        # type: (str) -> SearchResult
+        # type: (int) -> SearchResult
         url = self._download_url + '/album.xml?album={}'.format(album_id)
         try:
             res = requests.get(url, timeout=MAX_TIME_OUT)
@@ -111,6 +115,7 @@ class Bia2(MusicBase):
                       url=data.get('share_url'), image=data.get('cover'), source=Bia2))
         return SearchResult(musics=musics)
 
+    @test_attr(42271)  # Shomine - Helen
     def get_download_url(self, music_id):
         url = self._download_url + '/music.xml?id={}'.format(music_id)
         try:
