@@ -16,7 +16,6 @@ parser.add_argument('--sources', '-s', type=str,
                     help='List of sources (default: --sources all)\n'
                          'Available sources: ' + ", ".join(i[0] for i in available_sources), default=None)
 parser.add_argument('--dl-first', '-df', help='Download first music in list', nargs='?', type=str, default='')
-
 parser.add_argument('--dl-album', '-da', help='Download all musics in an album', nargs='?', type=str, default='')
 parser.add_argument('--dl-artist', '-dr', help='Download all musics of an artist', nargs='?', type=str, default='')
 
@@ -25,14 +24,15 @@ args = parser.parse_args()
 
 def response(_musics, _albums, _artists):
     counter = 1
-
+    count_all = len(_musics) + len(_albums) + len(_artists)
     if len(_musics) == 0:
         return
     else:
         print('\nMusics:')
 
         for music in _musics:
-            print('\t', '%s.' % counter, '[%s]' % music.source.__site_name__, music.full_title)
+            print('\t', '%s.%s' % (counter, " " * (len(str(count_all)) - len(str(counter)))),
+                  '[%s]' % music.source.__site_name__, music.full_title)
             items.append(music)
             counter += 1
 
@@ -41,7 +41,8 @@ def response(_musics, _albums, _artists):
     else:
         print('\nAlbums:')
         for album in _albums:
-            print('\t', '%s.' % counter, '[%s]' % album.source.__site_name__, album.full_title)
+            print('\t', '%s.%s' % (counter, " " * (len(str(count_all)) - len(str(counter)))),
+                  '[%s]' % album.source.__site_name__, album.full_title)
             items.append(album)
             counter += 1
 
@@ -50,7 +51,8 @@ def response(_musics, _albums, _artists):
     else:
         print('\nArtists:')
         for artist in _artists:
-            print('\t', '%s.' % counter, '[%s]' % artist.source.__site_name__, artist.full_name)
+            print('\t', '%s.%s' % (counter, " " * (len(str(count_all)) - len(str(counter)))),
+                  '[%s]' % artist.source.__site_name__, artist.full_name)
             items.append(artist)
             counter += 1
 
@@ -81,13 +83,13 @@ if __name__ == '__main__':
 
         response(musics, albums, artists)
 
-        _input = input('\nSelect an item to download (Press Q for exit): ')
+        _input = input('\nSelect an item to download (Press Q to exit): ')
 
         if _input.lower() == 'q':
             exit()
 
         while (not _input.isdigit()) or len(items) < int(_input) or int(_input) < 1:
-            _input = input('(Invalid!) Select an item to download (Press Q for exit): ')
+            _input = input('(Invalid!) Select an item to download (Press Q to exit): ')
             if _input.lower() == 'q':
                 exit()
 
