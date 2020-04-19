@@ -8,12 +8,9 @@ class SearchResult(object):
 
     def to_dict(self):
         return {
-            "musics": [{j: i.__dict__[j] if j != "source" else i.__dict__[j].__site_name__ for j in i.__dict__} for i in
-                       self.musics],
-            "albums": [{j: i.__dict__[j] if j != "source" else i.__dict__[j].__site_name__ for j in i.__dict__} for i in
-                       self.albums],
-            "artists": [{j: i.__dict__[j] if j != "source" else i.__dict__[j].__site_name__ for j in i.__dict__} for i
-                        in self.artists],
+            "musics": [i.to_dict() for i in self.musics],
+            "albums": [i.to_dict() for i in self.albums],
+            "artists": [i.to_dict() for i in self.artists],
         }
 
     def __repr__(self):

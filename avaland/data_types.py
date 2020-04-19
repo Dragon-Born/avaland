@@ -12,6 +12,7 @@ class Music:
     album = None  # type: str
     image = None  # type: str
     url = None  # type: str
+    download_url = None  # type: str
 
     source = None
 
@@ -27,6 +28,9 @@ class Music:
             download.get()
             return download
         return self.source({}).download(self.id, path)
+
+    def to_dict(self):
+        return {i: self.__dict__[i] if i != "source" else self.__dict__[i].__name__ for i in self.__dict__}
 
     def __getitem__(self, item):
         return None
@@ -55,6 +59,9 @@ class Album:
             setattr(self, i, kwargs[i].strip() if kwargs[i] and isinstance(kwargs[i], str) else kwargs[i])
         self.full_title = self.title + ' - ' + self.artist if self.artist else self.title
 
+    def to_dict(self):
+        return {i: self.__dict__[i] if i != "source" else self.__dict__[i].__name__ for i in self.__dict__}
+
     def __repr__(self):
         return "<{id}: {album}>".format(id=str(self.id),
                                         album=self.title + " - " + self.artist if self.artist else self.title)
@@ -73,6 +80,9 @@ class Artist:
     def get_items(self):
         # type: () -> SearchResult
         return self.source({}).get_artist(artist_id=self.id)
+
+    def to_dict(self):
+        return {i: self.__dict__[i] if i != "source" else self.__dict__[i].__name__ for i in self.__dict__}
 
     def __init__(self, **kwargs):
         for i in kwargs.keys():

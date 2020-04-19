@@ -44,5 +44,7 @@ def _create_class(name, obj):
 class_members = inspect.getmembers(sources, inspect.isclass)
 
 for i in class_members:
-    if issubclass(i[1], MusicBase) and i[0] != "MusicBase":
+    if issubclass(i[1], MusicBase) and i[1] != MusicBase:
         globals()[i[0]] = _create_class(i[0], i[1])
+
+

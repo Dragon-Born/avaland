@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 
 import argparse
+import inspect
 
+from avaland import sources, MusicBase
 from avaland.manager import SourceManager
-from avaland.sources import *
+
+inspect_sources = inspect.getmembers(sources, inspect.isclass)
+available_sources = [i for i in inspect_sources if issubclass(i[1], MusicBase) and i[1] != MusicBase]
 
 parser = argparse.ArgumentParser(description='Avaland Music Downloader')
 parser.add_argument('query', type=str, help='Search query')
 parser.add_argument('--path', '-p', type=str, help='Path to download music/album')
 parser.add_argument('--sources', '-s', type=str,
                     help='List of sources (default: --sources all)\n'
-                         'Available sources: Bia2, Next1, Navahang, RadioJavan, RapFarsi, WikiSeda')
+                         'Available sources: ' + ", ".join(i[0] for i in available_sources), default=None)
 parser.add_argument('--dl-first', '-df', help='Download first music in list', nargs='?', type=str, default='')
 
 parser.add_argument('--dl-album', '-da', help='Download all musics in an album', nargs='?', type=str, default='')
@@ -53,13 +57,10 @@ def response(_musics, _albums, _artists):
 
 if __name__ == '__main__':
     manager = SourceManager()
-
-    manager.register(Bia2)
-    manager.register(Nex1)
-    manager.register(RapFarsi)
-    manager.register(Navahang)
-    manager.register(RadioJavan)
-    manager.register(WikiSeda)
+    sources = args.sources.split(",") if args.sources else None
+    for i in available_sources:
+        if not sources or i[0].lower() in sources or sources[0] == 'all':
+            manager.register(i[1])
 
     search = manager.search(args.query)
 
