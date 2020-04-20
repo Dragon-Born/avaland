@@ -92,7 +92,8 @@ class RapFarsi(MusicBase):
             artist, title = data['artistTitle'], i['title']
             musics.append(
                 Music(id=i['id'], title=self._reformat(title), artist=artist, url=self._site_url + data['link'],
-                      image=i["cover"]['full'], source=RapFarsi, download_link=i['track320']['link']))
+                      image=i["cover"]['full'], source=RapFarsi,
+                      download_link=i['track320']['link'] if 'track320' in i else i['track128']['link']))
         return SearchResult(musics=musics)
 
     def download(self, music_id, path=None):
