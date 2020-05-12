@@ -56,7 +56,7 @@ class WikiSeda(MusicBase):
             if i['type'] == 'song':
                 musics.append(
                     Music(id=int(i["id"]), title=self._reformat(i['songname']), artist=i['artist'], url=i['url'],
-                          image=i['poster'], source=WikiSeda))
+                          image=i['poster'], source=WikiSeda, download_url=i['mp3']))
             elif i['type'] == 'artist':
                 artists.append(
                     Artist(id=int(i["id"]), full_name=i['artist'], url=i['url'], image=i['poster'], source=WikiSeda))
@@ -69,7 +69,7 @@ class WikiSeda(MusicBase):
 
     @test_attr(61)  # Hichkas
     def get_artist(self, artist_id):
-        # type: (str) -> SearchResult
+        # type: (int) -> SearchResult
         try:
             url = self._download_url + "getnewcases?signer_id={id}&lang=en".format(id=artist_id)
             res = requests.get(url, timeout=MAX_TIME_OUT)
@@ -79,8 +79,8 @@ class WikiSeda(MusicBase):
             raise SourceNetworkError("Cannot connect to Next1 server. (HTTPError)")
         musics = []
         albums = []
-        data = res.json()['items']
-        for i in data:
+        data = res.json()
+        for i in data['items']:
             if i['type'] == 'song':
                 musics.append(
                     Music(id=int(i["id"]), title=self._reformat(i['songname']), artist=i['artist'], url=i['url'],
@@ -89,7 +89,9 @@ class WikiSeda(MusicBase):
                 albums.append(
                     Album(id=i["id"], title=self._reformat(i['album']), artist=self._reformat(i['artist']),
                           url=i['url'], image=i['poster'], source=WikiSeda))
-        return SearchResult(musics=musics, albums=albums)
+        return SearchResult(musics=musics, albums=albums,
+                            artists=[Artist(full_name=data['artist'][0]['artist'], image=data['artist'][0]['poster'],
+                                            id=int(data['artist'][0]['id']))])
 
     @test_attr(1751)  # Ya To Ya Hich Kas - Maryam Heydarzadeh
     def get_album(self, album_id):

@@ -21,6 +21,12 @@ class Music:
             setattr(self, i, kwargs[i].strip() if kwargs[i] and isinstance(kwargs[i], str) else kwargs[i])
         self.full_title = self.title + ' - ' + self.artist if self.artist else self.title
 
+    def get_link(self):
+        if self.download_url:
+            return self.download_url
+        else:
+            return self.source({}).get_download_url(self.id)[2]
+
     def download(self, path=None):
         download_url = getattr(self, "download_url", None)
         if download_url:
@@ -45,14 +51,16 @@ class Album:
     title = None  # type: str
     artist = None  # type: str
     full_title = None  # type: str
-    musics = None  # type: Tuple[Music]
+    musics = tuple()  # type: Tuple[Music]
     image = None  # type: str
 
     source = None
 
     def get_items(self):
         # type: () -> SearchResult
-        return self.source({}).get_album(album_id=self.id)
+        album = self.source({}).get_album(album_id=self.id)
+        self.musics = album.musics
+        return album
 
     def __init__(self, **kwargs):
         for i in kwargs.keys():
@@ -60,7 +68,9 @@ class Album:
         self.full_title = self.title + ' - ' + self.artist if self.artist else self.title
 
     def to_dict(self):
-        return {i: self.__dict__[i] if i != "source" else self.__dict__[i].__name__ for i in self.__dict__}
+        dict_data = {i: self.__dict__[i] if i != "source" else self.__dict__[i].__name__ for i in self.__dict__}
+        dict_data['musics'] = [i.to_dict() for i in self.musics]
+        return dict_data
 
     def __repr__(self):
         return "<{id}: {album}>".format(id=str(self.id),

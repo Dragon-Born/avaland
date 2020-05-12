@@ -73,7 +73,7 @@ if __name__ == '__main__':
         artists = []
 
         for source in search:
-            musics.extend(search[source].musics)
+            musics.extend(search[source].musics[0])
             albums.extend(search[source].albums)
             artists.extend(search[source].artists)
 

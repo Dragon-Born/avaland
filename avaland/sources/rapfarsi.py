@@ -53,7 +53,9 @@ class RapFarsi(MusicBase):
         for i in data:
             if i['type'] == 'single':
                 musics.append(Music(id=i["slug"], title=self._reformat(i['title']), artist=i['artistTitle'],
-                                    url=self._site_url + i['link'], image=i['cover']['full'], source=RapFarsi))
+                                    url=self._site_url + i['link'], image=i['cover']['full'], source=RapFarsi,
+                                    download_link=i['track320']['link'] if i['track320'] else i['track128']['link'] if
+                                    'track128' in i and i['track128'] else None))
             elif i['type'] == 'album':
                 albums.append(
                     Album(id=i["slug"], title=self._reformat(i['title']), artist=self._reformat(i['artistTitle']),
@@ -93,7 +95,7 @@ class RapFarsi(MusicBase):
             musics.append(
                 Music(id=i['id'], title=self._reformat(title), artist=artist, url=self._site_url + data['link'],
                       image=i["cover"]['full'], source=RapFarsi,
-                      download_link=i['track320']['link'] if 'track320' in i else i['track128']['link']))
+                      download_link=i['track320']['link'] if i['track320'] else i['track128']['link']))
         return SearchResult(musics=musics)
 
     def download(self, music_id, path=None):

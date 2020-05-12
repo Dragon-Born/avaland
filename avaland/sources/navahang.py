@@ -92,8 +92,8 @@ class Navahang(MusicBase):
             raise SourceNetworkError("Cannot connect to Navahang server. (HTTPError)")
         musics = []
         albums = []
-        data = res.json()['works']
-        for i in data:
+        data = res.json()
+        for i in data['works']:
             if i['category'] == 'MP3':
                 musics.append(
                     Music(id=i["post_id"], title=self._reformat(i['song_name']), artist=i['artist_name'],
@@ -102,7 +102,7 @@ class Navahang(MusicBase):
                 albums.append(
                     Music(id=i["albumId"], title=self._reformat(i['song']), artist=i['artist'],
                           image=i['playerimage'], source=Navahang))
-        return SearchResult(musics=musics, albums=albums)
+        return SearchResult(musics=musics, albums=albums, artists=[Artist(full_name=data['name'], id=artist_id, source=Navahang)])
 
     @test_attr(171108)  # Helen - Negahe To
     def get_album(self, album_id):

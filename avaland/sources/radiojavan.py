@@ -84,7 +84,6 @@ class RadioJavan(MusicBase):
         musics = []
         albums = []
         data = res.json()
-
         if 'mp3s' in data:
             for i in data['mp3s']:
                 musics.append(
@@ -98,11 +97,11 @@ class RadioJavan(MusicBase):
                           artist=self._reformat(i['album_artist']), url=i['album']['share_link'], image=i['photo'],
                           source=RadioJavan))
 
-        return SearchResult(musics=musics, albums=albums)
+        return SearchResult(musics=musics, albums=albums, artists=[Artist(full_name=data['query'], id=artist_id, source=RadioJavan)])
 
     @test_attr(44893)  # Jangale Asfalt - Hichkas
     def get_album(self, album_id):
-        # type: (str) -> SearchResult
+        # type: (int) -> SearchResult
         try:
             res = requests.get(self._download_url + "mp3?id={id}".format(id=album_id), timeout=MAX_TIME_OUT)
         except ConnectionError:
@@ -111,12 +110,21 @@ class RadioJavan(MusicBase):
             raise SourceNetworkError("Cannot connect to Next1 server. (HTTPError)")
         musics = []
         data = res.json()
-        for i in data['related']:
-            if i['type'] == 'mp3':
+        albums = []
+        artist = [Artist(full_name=data['artist'], id=quote(data['artist']).lower())]
+        if 'album_tracks' in data:
+            albums.append(Album(artist=data['album_artist'], title=data['album_album']))
+            for i in data['album_tracks']:
+                if i['type'] == 'mp3':
+                    musics.append(
+                        Music(id=i['id'], title=self._reformat(i['song']), artist=i['artist'],
+                              url=i['share_link'], image=i["photo"], source=RadioJavan, download_link=i['link']))
+        else:
+            if data['type'] == 'mp3':
                 musics.append(
-                    Music(id=i['id'], title=self._reformat(i['song']), artist=i['artist'],
-                          url=i['share_link'], image=i["photo"], source=RadioJavan, download_link=i['link']))
-        return SearchResult(musics=musics)
+                    Music(id=data['id'], title=self._reformat(data['song']), artist=data['artist'],
+                          url=data['share_link'], image=data["photo"], source=RadioJavan, download_link=data['link']))
+        return SearchResult(musics=musics, albums=albums, artists=artist)
 
     @test_attr(88782)  # Hich - Reza Bahram
     def get_download_url(self, music_id):

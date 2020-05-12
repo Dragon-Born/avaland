@@ -87,15 +87,16 @@ class Bia2(MusicBase):
             if data[i].tag == 'albums':
                 for j in data[i]:
                     albums.append(
-                        Album(id=j.get('id'), title=self._reformat(j.get('title')),
+                        Album(id=int(j.get('id')), title=self._reformat(j.get('title')),
                               artist=self._reformat(data.get("name")), image=j.get('cover'), source=Bia2))
 
             if data[i].tag == 'singles':
                 for j in data[i]:
                     musics.append(
-                        Music(id=j.get('id'), title=self._reformat(j.get('title')), artist=data.get("name"),
+                        Music(id=int(j.get('id')), title=self._reformat(j.get('title')), artist=data.get("name"),
                               url=data.get('share_url'), image=j.get('cover'), source=Bia2))
-        return SearchResult(musics=musics, albums=albums)
+        return SearchResult(musics=musics, albums=albums, artists=[Artist(full_name=data.get("name"), id=artist_id,
+                                                                          image=data.get("cover"), source=Bia2)])
 
     @test_attr(1267)  # Moon And Star - Helen
     def get_album(self, album_id):
@@ -111,7 +112,7 @@ class Bia2(MusicBase):
         musics = []
         for i in data:
             musics.append(
-                Music(id=i.get("id"), title=self._reformat(i.get("title")), artist=data.get('artist'),
+                Music(id=int(i.get("id")), title=self._reformat(i.get("title")), artist=data.get('artist'),
                       url=data.get('share_url'), image=data.get('cover'), source=Bia2))
         return SearchResult(musics=musics)
 
