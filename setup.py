@@ -1,10 +1,19 @@
 from setuptools import setup, find_packages
 
+current_dir = path.abspath(path.dirname(__file__))
+
+with open(path.join(current_dir, 'README.md')) as f:
+    description = f.read()
+    
+    
 setup(
     name='avaland',
     version='0.0.1',
-    description='Avaland is the best free music downloader to download music free online.',
+    description='Avaland is a music downloader to download music from many sources.',
+    long_description=description,
+    long_description_content_type='text/markdown',
     url='https://github.com/Dragon-Born/avaland',
+    download_url = 'https://github.com/Dragon-Born/avaland/archive/v0.1.tar.gz',
     keywords=[
         'Avaland',
         'Persian music', 'Persian music downloader', 'Persian music api',
@@ -19,11 +28,10 @@ setup(
     scripts=['bin/avaland'],
     classifiers=[
         'Development Status :: 3 - Alpha',
-        # Chose either '3 - Alpha', '4 - Beta' or '5 - Production/Stable' as the current state of your package
-        'Intended Audience :: Developers',  # Define that your audience are developers
+        'Intended Audience :: Developers',
         'Environment :: Console',
         'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: MIT License',  # Again, pick a license
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
