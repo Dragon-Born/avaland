@@ -8,7 +8,7 @@ from requests.exceptions import ConnectionError, HTTPError
 from avaland.config import MAX_TIME_OUT
 from avaland.data_types import Music, Artist, Album
 from avaland.download import Download
-from avaland.exceptions import SourceNetworkError
+from avaland.exceptions import SourceNetworkError, SourceException
 from avaland.music_base import MusicBase
 from avaland.search import SearchResult
 from avaland.utils import test_attr
@@ -49,7 +49,7 @@ class Bia2(MusicBase):
             raise SourceNetworkError("Cannot connect to bia2music server. (HTTPError)")
 
         if res.status_code == 404:
-            pass  # TODO: get new engine key
+            raise SourceException("Invalid response data from Bia2")
         data = res.json()['records']['page']
         musics = []
         albums = []

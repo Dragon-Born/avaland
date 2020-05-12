@@ -1,13 +1,15 @@
  <p style="text-align: center">
      <img alt="Avaland Music Downloader" src=".docs/avaland.png" height="150" width="150"/>
      <h2 style="text-align: center">Avaland Music Downloader</h2>
-     <p style="text-align: center">Avaland is a music downloader command-line program to download musics from most popular iranian music websites, written in Python compatible with Windows, OS X and GNU/Linux. It supports RadioJavan, Bia2Music, Nex1Music, Navahang, WikiSeda and RapFarsi.</p>
+     <p style="text-align: center">Avaland is a command-line program to download musics directly from most popular Iranian music websites, written in Python. It supports RadioJavan, Bia2Music, Nex1Music, Navahang, WikiSeda and RapFarsi.</p>
 
+>It requires the Python interpreter, version 3.5+, and it is not platform specific. It should work on your Unix box, on Windows or on macOS.
+
+![](.docs/screen_shot.jpg)
 ## Installation and Notes
-To install it type:
-
+To install it open your terminal and type:
 ```
-pip install avaland
+pip3 install avaland
 ```
 
 
