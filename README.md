@@ -34,7 +34,7 @@ optional arguments:
   --dl-artist, -dr      download all musics of an artist
 ```
 
-```shell script
+```commandline
 # Search tracks
 avaland "your search query"
 
