@@ -49,7 +49,7 @@ class Bia2(MusicBase):
             raise SourceNetworkError("Cannot connect to bia2music server. (HTTPError)")
 
         if res.status_code == 404:
-            raise SourceException("Invalid response data from Bia2")
+            raise SearchResult(None, None, None)
         data = res.json()['records']['page']
         musics = []
         albums = []
