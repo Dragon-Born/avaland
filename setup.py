@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from os import path
 
 current_dir = path.abspath(path.dirname(__file__))
 
