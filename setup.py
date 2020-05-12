@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Avaland Music Downloader',
+    name='avaland',
     version='0.0.1',
     description='Avaland is the best free music downloader to download music free online.',
-    url='https://git.arian.lol/arian/avaland',
+    url='https://github.com/Dragon-Born/avaland',
     keywords=[
         'Avaland',
         'Persian music', 'Persian music downloader', 'Persian music api',
@@ -24,11 +24,6 @@ setup(
         'Environment :: Console',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',  # Again, pick a license
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
