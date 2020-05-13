@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/avaland.svg)](https://badge.fury.io/py/avaland) 
+[![PyPI version](https://img.shields.io/pypi/v/avaland.svg)](https://pypi.org/project/avaland/) 
 [![Build Status](https://api.travis-ci.com/Dragon-Born/avaland.svg?branch=master)](https://travis-ci.org/dragon-born/avaland)
 <p style="text-align: center">
      <h2 style="text-align: center">Avaland Music Downloader</h2>
