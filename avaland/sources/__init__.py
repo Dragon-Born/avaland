@@ -4,3 +4,4 @@ from .nex1music import Nex1
 from .radiojavan import RadioJavan
 from .rapfarsi import RapFarsi
 from .wikiseda import WikiSeda
+from .mrtehran import MrTehran
