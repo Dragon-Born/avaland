@@ -8,7 +8,6 @@ from avaland.exceptions import SourceNetworkError
 from avaland.music_base import MusicBase
 from avaland.search import SearchResult
 from avaland.utils import test_attr
-from bs4 import BeautifulSoup
 from requests import ConnectionError, HTTPError
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
