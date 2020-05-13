@@ -2,7 +2,7 @@
 [![Build Status](https://api.travis-ci.com/Dragon-Born/avaland.svg?branch=master)](https://travis-ci.org/dragon-born/avaland)
 <p style="text-align: center">
      <h2 style="text-align: center">Avaland Music Downloader</h2>
-     <p style="text-align: center">Avaland is a command-line program to download musics directly from most popular Iranian music websites, written in Python. It supports RadioJavan, Bia2Music, Nex1Music, Navahang, WikiSeda and RapFarsi.</p>
+     <p style="text-align: center">Avaland is a command-line program to download musics directly from most popular Iranian music websites, written in Python. It supports RadioJavan, Bia2Music, Nex1Music, Navahang, WikiSeda, MrTehran and RapFarsi.</p>
 
 >It requires the Python interpreter, version 3.5+, and it is not platform specific. It should work on your Unix box, on Windows or on macOS.
 
