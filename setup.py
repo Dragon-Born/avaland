@@ -32,7 +32,7 @@ setup(
     install_requires=['requests', 'pathlib2', 'typing'],
     scripts=['bin/avaland'],
     classifiers=[
-        'Development Status :: 4 - Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Environment :: Console',
         'Topic :: Software Development :: Build Tools',
