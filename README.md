@@ -1,4 +1,5 @@
-[![PyPI version](https://img.shields.io/pypi/v/avaland.svg)](https://pypi.org/project/avaland/) 
+[![PyPI version](https://img.shields.io/pypi/v/avaland.svg)](https://pypi.org/project/avaland/) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FDragon-Born%2Favaland.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FDragon-Born%2Favaland?ref=badge_shield)
+
 [![Build Status](https://api.travis-ci.com/Dragon-Born/avaland.svg?branch=master)](https://travis-ci.org/dragon-born/avaland)
 <p style="text-align: center">
      <h2 style="text-align: center">Avaland Music Downloader</h2>
@@ -82,3 +83,6 @@ Contributions are what make the open source community such an amazing place to b
 # License
 
 [MIT](LICENCE)
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FDragon-Born%2Favaland.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FDragon-Born%2Favaland?ref=badge_large)
